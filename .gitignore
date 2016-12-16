@@ -1,2 +1,4 @@
 venv
 PiePrompt.egg-info
+.pyc
+__pycache__

@@ -33,50 +33,54 @@ def get_venv_part():
     )
 
 
-def get_parts():
-    parts = {}
-    parts['top_brace'] = Part(
-        colored_output=colorize(Color.PURPLE, '╔═') + ' ',
-        raw_length=3,
+def get_top_line_part():
+    raw_user = getuser()
+    raw_host = gethostname()
+
+    top_brace = colorize(Color.PURPLE, '╔═') + ' '
+    user = colorize(Color.BLUE, raw_user)
+    at = colorize(Color.WHITE, '@', False)
+    host = colorize(Color.GREEN, raw_host)
+
+    combined = top_brace + user + at + host + ':'
+    raw_length = len(raw_user) + len(raw_host) + 5
+
+    return Part(
+        colored_output=combined,
+        raw_length=raw_length,
     )
 
-    username = getuser()
-    parts['user'] = Part(
-        colored_output=colorize(Color.BLUE, username),
-        raw_length=len(username),
-    )
 
-    hostname = gethostname()
-    parts['host'] = Part(
-        colored_output=colorize(Color.GREEN, hostname),
-        raw_length=len(hostname),
-    )
-
-    parts['at'] = Part(
-        colored_output=colorize(Color.WHITE, '@', False),
-        raw_length=1,
-    )
-
+def get_dir_part():
     home_dir = os.path.expanduser('~')
     curr_dir = os.getcwd().replace(home_dir, '~')
-    parts['dir'] = Part(
+    return Part(
         colored_output=colorize(Color.GREY, curr_dir),
         raw_length=len(curr_dir),
     )
 
+
+def get_parts():
+    parts = [
+        get_top_line_part(),
+        get_dir_part(),
+    ]
+
     git_part = get_git_part()
     if git_part:
-        parts['git'] = git_part
+        parts.append(git_part)
 
     venv_part = get_venv_part()
     if venv_part:
-        parts['venv'] = venv_part
+        parts.append(venv_part)
 
 
-    parts['test'] = Part(
-        colored_output="This is b test hello",
-        raw_length=20,
+    test_part = Part(
+        colored_output="You've got mail!",
+        raw_length=16,
     )
+
+    parts.append(test_part)
 
     return parts
 
