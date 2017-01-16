@@ -74,13 +74,5 @@ def get_parts():
     if venv_part:
         parts.append(venv_part)
 
-
-    test_part = Part(
-        colored_output="You've got mail!",
-        raw_length=16,
-    )
-
-    parts.append(test_part)
-
     return parts
 
