@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import pwd
 import subprocess
@@ -8,11 +9,11 @@ from socket import gethostname
 
 from colors import color as ansicolor
 
-from pieprompt.util import run_command
-from pieprompt.util import colorize
-from pieprompt.util import Color
-from pieprompt.util import Part
 from pieprompt.git_part import get_git_part
+from pieprompt.util import Color
+from pieprompt.util import colorize
+from pieprompt.util import Part
+from pieprompt.util import run_command
 
 def get_venv_part():
     if not os.environ.get('VIRTUAL_ENV'):
@@ -75,4 +76,3 @@ def get_parts():
         parts.append(venv_part)
 
     return parts
-

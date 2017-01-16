@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-import subprocess
 import os
+import subprocess
 
-from pieprompt.util import run_command
-from pieprompt.util import colorize
 from pieprompt.util import Color
+from pieprompt.util import colorize
 from pieprompt.util import Part
+from pieprompt.util import run_command
 
 def get_git_part():
     try:
@@ -52,5 +52,3 @@ def get_git_part():
         colored_output=colored_output,
         raw_length=sum([len(bit) for bit in bits]),
     )
-
-

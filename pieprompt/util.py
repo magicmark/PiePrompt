@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import subprocess
-from colors import color as ansicolor
 from collections import namedtuple
+
+from colors import color as ansicolor
 
 Part = namedtuple('Part', ('colored_output', 'raw_length'))
 
@@ -33,5 +34,3 @@ def colorize(color, text, bold=True):
         params['style'] = 'bold'
 
     return ansicolor(text, fg=color, **params)
-
-

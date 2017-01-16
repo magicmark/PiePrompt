@@ -4,9 +4,10 @@
 Creates the PS1 string for zsh.
 """
 import sys
+
 from pieprompt.parts import get_parts
-from pieprompt.util import colorize
 from pieprompt.util import Color
+from pieprompt.util import colorize
 
 def construct_ps1(parts, seperator):
     ps1 = '\n' + seperator.join(
