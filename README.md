@@ -5,9 +5,9 @@ To use: install in a venv, and use this custom zsh theme:
 
 ```
 function precmd() {
-    "$DF_ROOT/venv/bin/pieprompt" top "$(tput cols)"
+    path/to/venv/bin/pieprompt top "$(tput cols)"
 }
 
-PROMPT='%5{$("$DF_ROOT/venv/bin/pieprompt" bottom "$(tput cols)")%}'
+PROMPT='%5{$(path/to/venv/bin/pieprompt bottom "$(tput cols)")%}'
 RPROMPT='%{$fg[green]%}[%*]%{$reset_color%}'
 ```
