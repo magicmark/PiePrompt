@@ -7,10 +7,14 @@ import configparser
 import os
 import sys
 
+from pieprompt.communication import ask_daemon
 from pieprompt.gather_parts import get_parts
+from pieprompt.gather_parts import serve_parts
+from pieprompt.output import get_bottom
+from pieprompt.output import get_executed_parts
+from pieprompt.output import get_top
 from pieprompt.util import Color
 from pieprompt.util import colorize
-
 
 
 def get_config():
@@ -37,44 +41,27 @@ def get_config():
     }
 
 
-
-
-
-def construct_line(parts, seperator):
-    line = seperator.join(
-        [part.colored_output for part in parts]
-    )
-
-    return line
-
-
-def print_top(parts, window_width):
-    top_line_length = sum([part.raw_length for part in parts]) + 3
-
-    if top_line_length >= window_width:
-        seperator = '\n' + colorize(Color.PURPLE, '╠═') + ' '
-    else:
-        seperator = ' '
-
-    print('\n' + construct_line(parts, seperator))
-
-
-def print_bottom(parts):
-    sys.stdout.write(colorize(Color.PURPLE, '╚═') + ' ')
-    sys.stdout.write(construct_line(parts, ' ') + ' ')
-    sys.stdout.flush()
-
-
 def main():
+    config = get_config()
+
+    if 'daemon' in sys.argv:
+        serve_parts(config)
+
     cols = int(sys.argv[2])
 
-    config = get_config()
     top_parts, bottom_parts = get_parts(config)
 
+    top_parts = get_executed_parts(top_parts, config)
+    bottom_parts = get_executed_parts(bottom_parts, config)
+
+
     if sys.argv[1] == 'top':
-        print_top(top_parts, cols)
+        with ask_daemon('top {}'.format(cols)) as response:
+            print(response)
+
     elif sys.argv[1] == 'bottom':
-        print_bottom(bottom_parts)
+        with ask_daemon('bottom {}'.format(cols)) as response:
+            print(response)
 
 
 if __name__ == '__main__':
