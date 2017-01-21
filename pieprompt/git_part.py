@@ -2,12 +2,27 @@
 import os
 import subprocess
 
+from pieprompt.parts import Part
 from pieprompt.util import Color
 from pieprompt.util import colorize
-from pieprompt.util import Part
 from pieprompt.util import run_command
 
 def get_git_part():
+    # TODO: Move this checking logic elsewhere
+    no_git = os.environ.get('PIEPROMPT_NO_GIT', '')
+    no_git_folders = [
+        os.path.normpath(os.path.expanduser(path))
+        for path in no_git.split(',')
+    ]
+
+    cwd = os.getcwd()
+    if any([
+        cwd.startswith(folder)
+        for folder in no_git_folders
+    ]):
+        return None
+
+
     try:
         git_dir = run_command(('git', 'rev-parse', '--git-dir'))
     except subprocess.CalledProcessError:

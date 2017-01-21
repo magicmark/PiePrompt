@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import subprocess
-from collections import namedtuple
 
 from colors import color as ansicolor
 
-Part = namedtuple('Part', ('colored_output', 'raw_length'))
 
 class Color:
     WHITE = 0
